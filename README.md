@@ -72,7 +72,7 @@ On va choisi notre apk :
 
 ![alt text](img/lastpass.png)
 
-On a maintenant cette page : 
+On a maintenant cette interface : 
 
 ![alt text](img/image1.png)
 
