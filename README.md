@@ -16,13 +16,82 @@ La première étape de l'analyse statique consiste à accéder au contenu intern
 
 - JADX est un décompilateur qui permet de convertir le bytecode DEX (Dalvik Executable) contenu dans le fichier APK en code Java lisible. Cela permet d'analyser le code source de l'application pour identifier les méthodes implémentées et les potentielles vulnérabilités présentes dans le code. Par exemple, nous pouvons rechercher des erreurs de programmation, des failles liées à la gestion des identifiants, ou des pratiques de sécurité inadéquates comme l'utilisation de protocoles de cryptage faibles.
 
-    ![alt text](jadx-logo.png)
+    ![alt text](img/jadx-logo.png)
 
 L'utilisation combinée d'APKTool et de JADX permet d'obtenir à la fois les ressources et le code source de l'application, ce qui constitue une base solide pour l'analyse statique. Cela nous aide à comprendre comment l'application est construite et à détecter des problèmes potentiels avant même de l'exécuter pour l'analyse dynamique.
 
 les permissions de ***LastPass*** sont :
-![alt text](permissions.png)
+![alt text](img/permissions.png)
 
+2. Analyse de code : Étude des fonctions critiques
 
+L'analyse statique approfondie du code source extrait lors de la décompilation permet de se concentrer sur des fonctions spécifiques qui sont responsables de la sécurité des données sensibles, telles que les identifiants et mots de passe des utilisateurs. Dans cette étape, nous analysons des composants comme Keystore, Vault, et KDF.js, qui sont souvent utilisés dans les applications de gestion de mots de passe pour renforcer la sécurité.
+
+-  Keystore :
+
+![alt text](img/keystore.png)
+
+- Vault :
+
+![alt text](img/vault.png)
+
+- Key Derivation Function :
+
+![alt text](img/kdf.png)
 
 ### 2.Analyse Dynamique
+
+Pour l'étape d'analyse dynamique, nous allons utiliser Mobile Security Framework [MobSF](https://github.com/MobSF/Mobile-Security-Framework-MobSF), un outil open-source spécialisé dans l'analyse de sécurité des applications mobiles, notamment pour les fichiers APK Android et IPA iOS.
+
+![alt text](img/mobsf.png)
+
+#### L'utilistaion de Mobsf : 
+- Téléchargement :
+
+        docker pull opensecurity/mobile-security-framework-mobsf:latest
+
+- Exécutez MobSF avec prise en charge de l'analyse statique et dynamique :
+
+        docker run -it --rm \
+        -p 8000:8000 \
+        -p 1337:1337 \
+        -e MOBSF_ANALYZER_IDENTIFIER=<adb device identifier> \
+        opensecurity/mobile-security-framework-mobsf:latest
+
+N'oubliez pas de changer 
+            
+        <adb device identifier>
+Par l'adresse que vous avez sur l'emulator,par exemple dans mon cas :
+![alt text](img/Iden.png)
+
+Tu vas trouver un login essayer d'utiliser ***mobsf / mobsf*** :
+
+![alt text](img/image.png)
+
+On va choisi notre apk :
+
+![alt text](img/lastpass.png)
+
+On a maintenant cette page : 
+
+![alt text](img/image1.png)
+
+- les ***API MONITOR*** :
+
+![alt text](img/image2.png)
+
+- Test TLS/SSL :
+
+![alt text](img/image3.png)
+
+- Dependecies :
+
+![alt text](img/image4.png)
+
+- Domains :
+
+![alt text](<img/image copy.png>)
+
+- DataBases :
+
+![alt text](<img/image copy 2.png>)
